@@ -16,9 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-                - name: cargo-install
-                  uses: baptiste0928/cargo-install@v3.0.1
-
                 - name: install-skyline
                   run: cargo install cargo-skyline
                   
