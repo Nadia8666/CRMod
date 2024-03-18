@@ -1,5 +1,5 @@
 name: Rust
-            
+           
 
 on:
   push:
@@ -16,7 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: jam1garner/cargo-skyline@v3.2.0
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo skyline build
+                - name: cargo-install
+                  uses: baptiste0928/cargo-install@v3.0.1
+
+                - name: install-skyline
+                  run: cargo install cargo-skyline
+                  
+                - name: build-nro
+                  run: cargo skyline build
