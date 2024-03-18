@@ -1,0 +1,47 @@
+/* EXAMPLE
+
+https://raw.githubusercontent.com/LilyLavender/ssbu-mod-workshop/main/episode02/FighterCodeNames.md
+
+https://raw.githubusercontent.com/LilyLavender/ssbu-mod-workshop/main/episode02/CommonAttackNames.md
+
+macros::ATTACK(
+            fighter,
+            0, // id
+            0, // part
+            Hash40::new("hip"), // bone
+            8.0, // dmg
+            50, // ang
+            70, // kbg
+            0, // fkb
+            100, // bkb
+            4.0, // size
+            -1.0, // hitboxstart X
+            6.0, // hitboxstart Y
+            0.0, // hitboxstart Z
+            Some(-3.2), // hitboxend X
+            Some(93.0), // hitboxend Y
+            Some(0.0),  // hitboxend Z
+            1.0, // hitlag
+            1.0, // sdi
+            *ATTACK_SETOFF_KIND_OFF, // ignore
+            *ATTACK_LR_CHECK_POS,  // ignore
+            false,  // knockback affected by weight
+            0, // extra dmg to shield 2.1 = all
+            0.0, // trip chance
+            0, // rehit
+            false, // reflectable
+            false, // absorbable
+            false, // flinchless
+            false, // disable hitlag
+            true, // direct hitbox (hitbox from the fighter, false if its from a weapon or smth)
+            *COLLISION_SITUATION_MASK_GA, // ground or air only, G = GROUND | A = AIR | GA = BOTH
+            *COLLISION_CATEGORY_MASK_ALL, // ignore
+            *COLLISION_PART_MASK_ALL, // ignore
+            false,  // friendly fire
+            Hash40::new("collision_attr_normal"), // effect https://raw.githubusercontent.com/ultimate-research/param-labels/master/ParamLabels.csv collision_attr
+            *ATTACK_SOUND_LEVEL_L, // sfx vol S/M/L
+            *COLLISION_SOUND_ATTR_KICK, // sfx type ignore most time
+            *ATTACK_REGION_THROW); // hitbox type ignore
+    }
+
+*/
