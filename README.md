@@ -7,4 +7,4 @@ Uses janky workarounds and not very pretty but does function.
 
 ## Characters:
 
-- Mario, Up B no longer has special fall and will turn you around if holding opposite direction, jumps persist
+- Mario, Up B no longer has special fall and will turn you around if holding opposite direction, refills 1 jump

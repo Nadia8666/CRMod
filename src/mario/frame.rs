@@ -43,8 +43,8 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
             
             // Remove jumping, disables up b
-            //WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
-            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
+            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            WorkModule::set_int(fighter.module_accessor, 1, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
 
             // Limit up b usage
             USED_SPECIAL_FALL[chr_id] = true

@@ -15,7 +15,7 @@ unsafe extern "C" fn game_specialhi(fighter: &mut L2CAgentBase) {
     let jumps_max = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) as usize;
 
     // Only let player up b if jumps max ~= 0
-    if jumps_max != 0 {
+    if jumps_max != 1 {
         let mut stick_x = ControlModule::get_stick_x(fighter.module_accessor);
         if stick_x != 0.0 {
             if stick_x < 0.0 {

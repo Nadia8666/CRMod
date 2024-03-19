@@ -2,5 +2,6 @@
 **/*.devcontainer
 **/*.py
 **/*.pyc
+**/release
 Cargo.lock
 .DS_Store
