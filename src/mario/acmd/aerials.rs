@@ -8,7 +8,6 @@ use {
         lib::lua_const::*
     },
     smash_script::*,
-    std::num
 };
 
 
