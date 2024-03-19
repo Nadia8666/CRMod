@@ -1,3 +1,5 @@
+#![allow(unsafe_op_in_unsafe_fn)]
+#![allow(unused_imports)]
 use {
     smash::{
         lua2cpp::*,
@@ -8,9 +10,10 @@ use {
 };
 
 // What used to be known as a "Once-Per-Fighter-Frame". On-Line functions can be set to run on any status condition.
+
 unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
     unsafe {
-        //println!("It'sa me, Mario, wahoooooooo!");
+        println!("It'sa me, Mario, wahoooooooo!");
         
         // Calls the global fighter frame
         global_fighter_frame(fighter);

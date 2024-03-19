@@ -1,7 +1,10 @@
+#![allow(unsafe_op_in_unsafe_fn)]
+#![allow(unused_imports)]
 use smash::{
     lua2cpp::*,
     app::{lua_bind::*, *}
 };
+
 
 pub unsafe extern "C" fn global_fighter_frame(fighter : &mut L2CFighterCommon) {
     if StatusModule::is_situation_changed(fighter.module_accessor) {

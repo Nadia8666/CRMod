@@ -1,4 +1,5 @@
 **/target
+**/*.devcontainer
 **/*.py
 **/*.pyc
 Cargo.lock
