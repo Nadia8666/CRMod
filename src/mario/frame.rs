@@ -6,6 +6,8 @@ use smash::lib::LuaConst;
 use {
     smash::{
         lua2cpp::*,
+        phx::*,
+        app::{sv_animcmd::*, lua_bind::*},
         app::lua_bind::*,
         lib::lua_const::*
     },
@@ -60,7 +62,9 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             USED_SPECIAL_FALL[chr_id] = false
         }
         
-        if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI {
+        let in_up = StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI;
+
+        if in_up {
             // Restore jumps, reenabling up b
             let mut stick_x = ControlModule::get_stick_x(fighter.module_accessor);
             if stick_x != 0.0 {
@@ -73,12 +77,6 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
                 PostureModule::set_lr(fighter.module_accessor, stick_x);
             }    
             
-            // Make animation virtually instant and stop any sounds it plays
-            if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 {
-                macros::FT_MOTION_RATE(fighter, 0.0002);
-                macros::STOP_SE(fighter, smashline::Hash40::new("se_mario_special_h03"));
-            }
-
             // Force fall animation if used multiple times in one fall
             /*  crashes?
             let valid_anim = MotionModule::motion_kind(boma) == smashline::Hash40::new("special_hi").hash || MotionModule::motion_kind(boma) == smashline::Hash40::new("special_air_hi").hash;
@@ -100,6 +98,12 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
 
         // Calls the global fighter frame
         global_fighter_frame(fighter);
+
+        // Make animation virtually instant and stop any sounds it plays
+        if in_up && WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 {
+            macros::FT_MOTION_RATE(fighter, 0.0002);
+            macros::STOP_SE(fighter, smashline::Hash40::new("se_mario_special_h03"));
+        }
     }
 }
 
