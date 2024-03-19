@@ -30,5 +30,5 @@ unsafe extern "C" fn mario_fireball_regular(agent: &mut L2CAgentBase) {
 }
 
 pub fn install(agent: &mut smashline::Agent) {
-    agent.game_acmd("game_regular", mario_fireball_regular);
+    agent.game_acmd("game_fireball_regular", mario_fireball_regular);
 }

@@ -11,15 +11,31 @@ use {
 
 // What used to be known as a "Once-Per-Fighter-Frame". On-Line functions can be set to run on any status condition.
 
+static mut USED_SPECIAL_FALL: bool = false;
+
 unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
+   
     unsafe {
-        println!("It'sa me, Mario, wahoooooooo!");
-        
+        // Remove special fall
+        let boma = fighter.module_accessor;
+        if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_FALL_SPECIAL {
+            // Change status to regular fall, and set jumps to 0
+            fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
+            WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+
+            // Limit up b usage
+            USED_SPECIAL_FALL = true
+        } else if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI && USED_SPECIAL_FALL {
+            // If previously special falled cancel current up b
+            fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
+            WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+        } else if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_LANDING && USED_SPECIAL_FALL {
+            // If landed remove previous special fall
+            USED_SPECIAL_FALL = false
+        }
+
         // Calls the global fighter frame
         global_fighter_frame(fighter);
-        
-        // Gives Mario unlimited jumps.
-        //WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
     }
 }
 
