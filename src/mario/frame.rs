@@ -96,14 +96,14 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             */
         }
 
-        // Calls the global fighter frame
-        global_fighter_frame(fighter);
-
         // Make animation virtually instant and stop any sounds it plays
         if in_up && WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 {
             macros::FT_MOTION_RATE(fighter, 0.0002);
             macros::STOP_SE(fighter, smashline::Hash40::new("se_mario_special_h03"));
         }
+
+        // Calls the global fighter frame
+        global_fighter_frame(fighter);
     }
 }
 
