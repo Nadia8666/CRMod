@@ -8,6 +8,7 @@ use smash::{
 
 pub unsafe extern "C" fn global_fighter_frame(fighter : &mut L2CFighterCommon) {
     if StatusModule::is_situation_changed(fighter.module_accessor) {
+        /*
         let situation_kind = &format!("{}", StatusModule::situation_kind(fighter.module_accessor));
         println!(
             "[Fighter Hook]\nFighter Kind: {}\nStatus Kind: {}\nSituation Kind: {}",
@@ -20,5 +21,6 @@ pub unsafe extern "C" fn global_fighter_frame(fighter : &mut L2CFighterCommon) {
                 _ => situation_kind
             }
         );
+        */
     }
 }
