@@ -19,35 +19,42 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
         // Remove special fall
         let boma = fighter.module_accessor;
         let chr_id = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
-        let mut should_call_frame:bool = true;
-
+        
         if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_FALL_SPECIAL {
             // Change status to regular fall, and set jumps to 0
             fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
-            WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            
+            // Remove jumping, disables up b
+            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
 
             // Limit up b usage
             USED_SPECIAL_FALL[chr_id] = true
-        } else if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI && USED_SPECIAL_FALL[chr_id] {
-            // If previously special falled cancel current up b
-            if should_call_frame {
-                should_call_frame = false;
-            }
-            
-            fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), true.into());
-            WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
         } else if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_LANDING && USED_SPECIAL_FALL[chr_id] {
+            // Restore jumps, reenabling up b
+            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
+           
             // If landed remove previous special fall
             USED_SPECIAL_FALL[chr_id] = false
         }
 
-        // Calls the global fighter frame
-        if should_call_frame {
-            global_fighter_frame(fighter);
+        if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI {
+            // Restore jumps, reenabling up b
+            let mut stick_x = ControlModule::get_stick_x(fighter.module_accessor);
+            if stick_x != 0.0 {
+                if stick_x < 0.0 {
+                    stick_x = -1.0
+                } else {
+                    stick_x = 1.0
+                }
+
+                PostureModule::set_lr(fighter.module_accessor, stick_x);
+            }    
         }
 
-        // Reset SCF
-        should_call_frame = true;
+        // Calls the global fighter frame
+        global_fighter_frame(fighter);
     }
 }
 
