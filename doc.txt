@@ -4,6 +4,16 @@ https://raw.githubusercontent.com/LilyLavender/ssbu-mod-workshop/main/episode02/
 
 https://raw.githubusercontent.com/LilyLavender/ssbu-mod-workshop/main/episode02/CommonAttackNames.md
 
+MotionModule::change_motion(fighter.module_accessor,
+                    smashline::Hash40::new("fall"), // animation
+                    0.0, // start frame
+                    1.0, // speed
+                    true, // looping
+                    0.0, // amcd/hitbox code frame start
+                    false, // false
+                    false // false
+                );
+
 macros::ATTACK(
             fighter,
             0, // id
@@ -41,7 +51,7 @@ macros::ATTACK(
             Hash40::new("collision_attr_normal"), // effect https://raw.githubusercontent.com/ultimate-research/param-labels/master/ParamLabels.csv collision_attr
             *ATTACK_SOUND_LEVEL_L, // sfx vol S/M/L
             *COLLISION_SOUND_ATTR_KICK, // sfx type ignore most time
-            *ATTACK_REGION_THROW
-            ); // hitbox type ignore
+            *ATTACK_REGION_THROW // hitbox type ignore
+            ); 
 
 */

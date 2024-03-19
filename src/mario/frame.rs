@@ -9,6 +9,7 @@ use {
         app::lua_bind::*,
         lib::lua_const::*
     },
+    smash_script::*,
     crate::custom::global_fighter_frame,
     std::collections::HashMap
 };
@@ -45,6 +46,7 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             }
 
             WorkModule::set_int(fighter.module_accessor, 1, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
+            WorkModule::set_flag(fighter.module_accessor, true, *FIGHTER_INSTANCE_WORK_ID_FLAG_DISABLE_SPECIAL_HI_CONTINUOUS);
 
             // Limit up b usage
             USED_SPECIAL_FALL[chr_id] = true
@@ -52,11 +54,12 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             // Restore jumps, reenabling up b
             //WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
             WorkModule::set_int(fighter.module_accessor, 2, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
-           
+            WorkModule::set_flag(fighter.module_accessor, false, *FIGHTER_INSTANCE_WORK_ID_FLAG_DISABLE_SPECIAL_HI_CONTINUOUS);
+
             // If landed remove previous special fall
             USED_SPECIAL_FALL[chr_id] = false
         }
-
+        
         if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_SPECIAL_HI {
             // Restore jumps, reenabling up b
             let mut stick_x = ControlModule::get_stick_x(fighter.module_accessor);
@@ -69,6 +72,20 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
 
                 PostureModule::set_lr(fighter.module_accessor, stick_x);
             }    
+            
+            // Force fall animation if used multiple times in one fall
+            if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 {
+                MotionModule::change_motion(fighter.module_accessor,
+                    smashline::Hash40::new("fall"), // animation
+                    0.0, // start frame
+                    1.0, // speed
+                    true, // looping
+                    0.0, // amcd/hitbox code frame start
+                    false, // false
+                    false // false
+                );
+            }
+
         }
 
         // Calls the global fighter frame
