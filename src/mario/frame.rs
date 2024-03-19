@@ -28,9 +28,6 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
     reset_hash.insert(*FIGHTER_STATUS_KIND_LANDING_LIGHT, true);
     reset_hash.insert(*FIGHTER_STATUS_KIND_WAIT, true);
     reset_hash.insert(*FIGHTER_STATUS_KIND_WALK, true);
-    reset_hash.insert(*FIGHTER_STATUS_KIND_JUMP, true);
-    reset_hash.insert(*FIGHTER_STATUS_KIND_JUMP_AERIAL, true);
-    reset_hash.insert(*FIGHTER_STATUS_KIND_JUMP_SQUAT, true);
 
     unsafe {
         // Remove special fall
@@ -43,7 +40,10 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
             fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
             
             // Remove jumping, disables up b
-            WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) != 1 {
+                WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
+            }
+
             WorkModule::set_int(fighter.module_accessor, 1, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX);
 
             // Limit up b usage
