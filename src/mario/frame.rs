@@ -35,7 +35,7 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
         let boma = fighter.module_accessor;
         let chr_id = WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID) as usize;
         let reset_fall_state = reset_hash.get(&StatusModule::status_kind(boma));
-
+        
         if StatusModule::status_kind(boma) == *FIGHTER_STATUS_KIND_FALL_SPECIAL {
             // Change status to regular fall, and set jumps to 0
             fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
@@ -73,19 +73,29 @@ unsafe extern "C" fn mario_on_main(fighter: &mut L2CFighterCommon) {
                 PostureModule::set_lr(fighter.module_accessor, stick_x);
             }    
             
-            // Force fall animation if used multiple times in one fall
+            // Make animation virtually instant and stop any sounds it plays
             if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 {
+                macros::FT_MOTION_RATE(fighter, 0.0002);
+                macros::STOP_SE(fighter, smashline::Hash40::new("se_mario_special_h03"));
+            }
+
+            // Force fall animation if used multiple times in one fall
+            /*  crashes?
+            let valid_anim = MotionModule::motion_kind(boma) == smashline::Hash40::new("special_hi").hash || MotionModule::motion_kind(boma) == smashline::Hash40::new("special_air_hi").hash;
+            if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT_MAX) == 1 && valid_anim {
                 MotionModule::change_motion(fighter.module_accessor,
                     smashline::Hash40::new("fall"), // animation
                     0.0, // start frame
                     1.0, // speed
-                    true, // looping
+                    false, // looping
                     0.0, // amcd/hitbox code frame start
                     false, // false
                     false // false
                 );
-            }
 
+                fighter.change_status(FIGHTER_STATUS_KIND_FALL.into(), false.into());
+            }
+            */
         }
 
         // Calls the global fighter frame
