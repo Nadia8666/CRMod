@@ -10,6 +10,6 @@ use {
     smash_script::*,
 };
 
-pub fn install(agent: &mut smashline::Agent) {
+pub fn install(_agent: &mut smashline::Agent) {
 
 }

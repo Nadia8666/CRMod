@@ -23,16 +23,18 @@ unsafe extern "C" fn sukuna_main(fighter: &mut L2CFighterCommon) {
         let boma = fighter.module_accessor;
         let color = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_COLOR);
 
-        let entry_id = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID);
-        let rebel_gauge = WorkModule::get_float(fighter.module_accessor, 0x4D);
+        if color == 3 {
+            let entry_id = WorkModule::get_int(boma, *FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID);
+            let rebel_gauge = WorkModule::get_float(fighter.module_accessor, 0x4D);
 
-        // Passive heal
-        if rebel_gauge > 10.0 {
-            smash::app::FighterSpecializer_Jack::add_rebel_gauge(boma, smash::app::FighterEntryID(entry_id), -0.5);
-            DamageModule::heal(boma, -0.05, 0);
+            // Passive heal
+            if rebel_gauge > 10.0 {
+                smash::app::FighterSpecializer_Jack::add_rebel_gauge(boma, smash::app::FighterEntryID(entry_id), -0.45);
+                DamageModule::heal(boma, -0.25, 0);
+            }
+
+            println!("{}", WorkModule::get_float(boma, 0x4D));
         }
-
-        println!("{}", WorkModule::get_float(boma, 0x4D));
 
         // Calls the global fighter frame
         global_fighter_frame(fighter);
