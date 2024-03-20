@@ -22,12 +22,18 @@
 
     Specials:
         Side - Dismantle
-        Down - Spiderweb
+        Down - Block counter
         Neutral - Fire arrow
-        Up - Vertical Dismantle
+        Up - ?
+        
+    Tilts:
+        Side - Cleave, requires touch
+        Down - Stamp
+    
     Attacks:
 
     Air:
-        Forward - Cleave, requires touch
+        Forward - Cleave, requires touch, reflector
+        Up - Dismantle
 
     Final Smash: N/A
