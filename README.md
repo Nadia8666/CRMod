@@ -16,4 +16,18 @@
 
 - [x] - [Adjustment]: Mario, Up B no longer has special fall and will turn you around if holding opposite direction
 
-- [ ] - [C_Charater]: Sukuna, TBD
+- [ ] - [C_Charater]: Sukuna, 
+
+    Passive heal
+
+    Specials:
+        Side - Dismantle
+        Down - Spiderweb
+        Neutral - Fire arrow
+        Up - Vertical Dismantle
+    Attacks:
+
+    Air:
+        Forward - Cleave, requires touch
+
+    Final Smash: N/A

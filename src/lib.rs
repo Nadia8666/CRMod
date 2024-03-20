@@ -10,8 +10,10 @@
 
 mod mario;
 mod custom;
+mod sukuna;
 
 #[skyline::main(name = "crmod")]
 pub fn main() {
+    sukuna::install();
     mario::install();
 }
