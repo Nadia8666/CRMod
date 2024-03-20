@@ -10,7 +10,7 @@ unsafe extern "C" fn forward_air(fighter: &mut L2CAgentBase) {
     let dir = PostureModule::lr(fighter.module_accessor);
     
     for _ in 0..5 {
-        KineticModule::add_speed(fighter.module_accessor, &Vector3f{ x: dir * 1.25, y: 0.0, z: 0.0});
+        KineticModule::add_speed(fighter.module_accessor, &Vector3f{ x: 0.65, y: 0.0, z: 0.0});
         wait(fighter.lua_state_agent, 2.0);
     }
 
