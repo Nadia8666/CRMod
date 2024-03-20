@@ -14,6 +14,6 @@
  
 ## Changes
 
-- [x] - Adjustment: Mario, Up B no longer has special fall and will turn you around if holding opposite direction
+- [x] - [Adjustment]: Mario, Up B no longer has special fall and will turn you around if holding opposite direction
 
-- [ ] - C_Charater: Sukuna, TBD
+- [ ] - [C_Charater]: Sukuna, TBD
